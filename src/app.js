@@ -29,8 +29,6 @@ if (process.env.NODE_ENV !== "production") {
   app.use(connectLivereload());
 }
 
-
-
 // Register custom Handlebars helper 'isInRange'
 hbs.registerHelper('isInRange', function (index, start, end) {
   return index >= start && index <= end;
@@ -38,7 +36,7 @@ hbs.registerHelper('isInRange', function (index, start, end) {
 
 app.use(bodyParser.urlencoded({
   extended: true
-}))
+}));
 
 // Middleware
 const routes = require('./routes/main');
@@ -58,7 +56,7 @@ hbs.registerHelper('isOdd', function (index) {
 });
 
 // MongoDB connection (with fallback to local database if .env is missing)
-const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017/website_tut';
+const mongoURL = process.env.MONGODB_URI;
 mongoose.connect(mongoURL)
   .then(() => {
     console.log('MongoDB connected');
@@ -162,6 +160,9 @@ Footer.create({
 
 // Start server (use environment variable or default to local port)
 const PORT = process.env.PORT || 5556;
+
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
+
+module.exports = app;
